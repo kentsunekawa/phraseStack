@@ -1,0 +1,13 @@
+docs/
+build/
+public/
+**/coverage/
+**/node_modules/
+node_modules/
+node_modules
+**/*.min.js
+*.config.js
+.*lintrc.js
+src/operations/types.d.ts
+src/operations/_types.d.ts
+src/reportWebVitals.ts

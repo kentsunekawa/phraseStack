@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import from libraries
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// import from this project
+import { ApolloProvider } from 'components/providers/ApolloProvider'
+import { ThemeProvider } from 'components/providers/ThemeProvider'
+import { GlobalStyle } from 'components/GlobalStyle'
+import { Home } from 'components/pages/Home'
 
-export default App;
+const App = () => (
+  <BrowserRouter>
+    <ApolloProvider>
+      <ThemeProvider>
+        <GlobalStyle />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
+      </ThemeProvider>
+    </ApolloProvider>
+  </BrowserRouter>
+)
+
+// eslint-disable-next-line import/no-default-export
+export default App

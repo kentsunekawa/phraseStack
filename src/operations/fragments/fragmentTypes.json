@@ -1,0 +1,17 @@
+{
+  "possibleTypes": {
+    "Node": [
+      "Asset",
+      "Page",
+      "Phrase",
+      "ScheduledOperation",
+      "ScheduledRelease",
+      "User"
+    ],
+    "ScheduledOperationAffectedDocument": [
+      "Asset",
+      "Page",
+      "Phrase"
+    ]
+  }
+}

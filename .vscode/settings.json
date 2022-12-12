@@ -1,0 +1,54 @@
+{
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": false,
+  "eslint.packageManager": "yarn",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[graphql]": {
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "files.exclude": {
+    "/.git": true,
+    "/.DS_Store": true,
+    "/node_modules": true,
+    "/node_modules/": true,
+    "/src/components/**/_*": true
+  },
+  "search.exclude": {
+    "/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/__generated__/**": true,
+    "**/build/**": true,
+    "**/coverage/**": true,
+    "**/node_modules/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.git/objects/**": true,
+  },
+  "files.autoSave": "onFocusChange"
+}
