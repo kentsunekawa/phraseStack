@@ -1,17 +1,21 @@
 {
   "possibleTypes": {
     "Node": [
+      "Account",
       "Asset",
       "Page",
       "Phrase",
+      "ProgressStatus",
       "ScheduledOperation",
       "ScheduledRelease",
       "User"
     ],
     "ScheduledOperationAffectedDocument": [
+      "Account",
       "Asset",
       "Page",
-      "Phrase"
+      "Phrase",
+      "ProgressStatus"
     ]
   }
 }

@@ -59,7 +59,8 @@ module.exports = {
         'react/require-default-props': 'off',
         "import/no-default-export": 'error',
         "react/no-unused-prop-types": 'warn',
-        'no-underscore-dangle': 'off'
+        'no-underscore-dangle': 'off',
+        "react/no-unknown-property": ["error", { "ignore": ["css"] }]
     },
     overrides: [
         {

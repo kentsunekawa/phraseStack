@@ -1,0 +1,9 @@
+query GetAccounts {
+  accounts {
+    id
+    name
+    avatar {
+      url
+    }
+  }
+}
