@@ -6,7 +6,7 @@ const defaultOptions = {} as const;
 export type GetAccountsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null }> };
+export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', lastCursor?: string | null } | null }> };
 
 
 export const GetAccountsDocument = gql`
@@ -16,6 +16,9 @@ export const GetAccountsDocument = gql`
     name
     avatar {
       url
+    }
+    progressStatus {
+      lastCursor
     }
   }
 }

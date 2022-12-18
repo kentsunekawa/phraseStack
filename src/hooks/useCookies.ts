@@ -2,11 +2,12 @@ import { useCookies as useReactCookies } from 'react-cookie'
 
 export const useCookies = () => {
   const [cookies, setCookie, removeCookie] = useReactCookies<
-    'accountId',
+    'accountId' | 'voice',
     {
       accountId: string
+      voice: string
     }
-  >(['accountId'])
+  >(['accountId', 'voice'])
 
   return { cookies, setCookie, removeCookie }
 }

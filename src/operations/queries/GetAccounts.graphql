@@ -5,5 +5,8 @@ query GetAccounts {
     avatar {
       url
     }
+    progressStatus {
+      lastCursor
+    }
   }
 }

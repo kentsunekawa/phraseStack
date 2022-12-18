@@ -6,7 +6,7 @@ import GridLoader from 'react-spinners/GridLoader'
 import { useStyle } from 'hooks'
 import { createStyles } from './styles'
 
-export const FlashScreen: React.FC = () => {
+export const SplashScreen: React.FC = () => {
   const { styles } = useStyle(createStyles)
 
   return (

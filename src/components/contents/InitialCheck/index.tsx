@@ -3,8 +3,16 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // import from this project
-import { useCookies, setIsInitialChecked, setAccount } from 'hooks'
+import {
+  useCookies,
+  setIsInitialChecked,
+  setAccount,
+  setVoice,
+  setAvailableVoices,
+} from 'hooks'
 import { useGetAccountLazyQuery } from 'operations/queries/__generated__/GetAccount'
+
+speechSynthesis.getVoices()
 
 export const InitialCheck: React.FC = () => {
   const { cookies } = useCookies()
@@ -20,8 +28,7 @@ export const InitialCheck: React.FC = () => {
         },
         onCompleted: (data) => {
           if (data.account) {
-            const { id, name } = data.account
-            setAccount({ id, name })
+            setAccount(data.account)
             setIsInitialChecked(true)
             navigate('/')
           }
@@ -36,6 +43,18 @@ export const InitialCheck: React.FC = () => {
       navigate('/accounts')
     }
   }, [navigate, cookies, getAccount])
+
+  useEffect(() => {
+    const ailableVoices = speechSynthesis
+      .getVoices()
+      .filter(({ lang }) => lang === 'en-US')
+
+    setAvailableVoices(ailableVoices)
+
+    if (cookies.voice) {
+      setVoice(ailableVoices.find(({ name }) => name === cookies.voice) ?? null)
+    }
+  }, [cookies.voice])
 
   return <></>
 }

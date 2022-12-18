@@ -1,0 +1,19 @@
+query GetPagesConnection($after: String, $first: Int) {
+  pagesConnection(after: $after, first: $first) {
+    edges {
+      cursor
+      node {
+        phrases {
+          japanese
+          phrase
+          pronunciation
+          id
+        }
+        description
+        references
+        title
+        id
+      }
+    }
+  }
+}

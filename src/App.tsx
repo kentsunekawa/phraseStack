@@ -10,7 +10,8 @@ import { GlobalStyle } from 'components/GlobalStyle'
 import { Home } from 'components/pages/Home'
 import { Accounts } from 'components/pages/Accounts'
 import { InitialCheck } from 'components/contents/InitialCheck'
-import { FlashScreen } from 'components/contents/FlashScreen'
+import { SplashScreen } from 'components/contents/SplashScreen'
+import { Loading } from 'components/contents/Loading'
 
 const App = () => {
   const { isInitialChecked } = useInitialCheck()
@@ -21,10 +22,11 @@ const App = () => {
         <ApolloProvider>
           <ThemeProvider>
             <GlobalStyle />
+            <Loading />
             {!isInitialChecked ? (
               <>
                 <InitialCheck />
-                <FlashScreen />
+                <SplashScreen />
               </>
             ) : (
               <Routes>

@@ -5606,12 +5606,20 @@ export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: '
 export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null }> };
+export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', lastCursor?: string | null } | null }> };
 
 export type GetPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetPagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', description?: string | null, references?: string | null, phrases: Array<{ __typename?: 'Phrase', id: string, phrase: string, pronunciation: string, japanese: string }> }> };
+
+export type GetPagesConnectionQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetPagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PageConnection', edges: Array<{ __typename?: 'PageEdge', cursor: string, node: { __typename?: 'Page', description?: string | null, references?: string | null, title: string, id: string, phrases: Array<{ __typename?: 'Phrase', japanese: string, phrase: string, pronunciation: string, id: string }> } }> } };
 
 
 export const GetAccountDocument = gql`
@@ -5663,6 +5671,9 @@ export const GetAccountsDocument = gql`
     name
     avatar {
       url
+    }
+    progressStatus {
+      lastCursor
     }
   }
 }
@@ -5735,3 +5746,53 @@ export function useGetPagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetPagesQueryHookResult = ReturnType<typeof useGetPagesQuery>;
 export type GetPagesLazyQueryHookResult = ReturnType<typeof useGetPagesLazyQuery>;
 export type GetPagesQueryResult = Apollo.QueryResult<GetPagesQuery, GetPagesQueryVariables>;
+export const GetPagesConnectionDocument = gql`
+    query GetPagesConnection($after: String, $first: Int) {
+  pagesConnection(after: $after, first: $first) {
+    edges {
+      cursor
+      node {
+        phrases {
+          japanese
+          phrase
+          pronunciation
+          id
+        }
+        description
+        references
+        title
+        id
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPagesConnectionQuery__
+ *
+ * To run a query within a React component, call `useGetPagesConnectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPagesConnectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPagesConnectionQuery({
+ *   variables: {
+ *      after: // value for 'after'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useGetPagesConnectionQuery(baseOptions?: Apollo.QueryHookOptions<GetPagesConnectionQuery, GetPagesConnectionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPagesConnectionQuery, GetPagesConnectionQueryVariables>(GetPagesConnectionDocument, options);
+      }
+export function useGetPagesConnectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPagesConnectionQuery, GetPagesConnectionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPagesConnectionQuery, GetPagesConnectionQueryVariables>(GetPagesConnectionDocument, options);
+        }
+export type GetPagesConnectionQueryHookResult = ReturnType<typeof useGetPagesConnectionQuery>;
+export type GetPagesConnectionLazyQueryHookResult = ReturnType<typeof useGetPagesConnectionLazyQuery>;
+export type GetPagesConnectionQueryResult = Apollo.QueryResult<GetPagesConnectionQuery, GetPagesConnectionQueryVariables>;

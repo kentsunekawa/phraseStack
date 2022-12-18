@@ -1,6 +1,7 @@
 import { useReactiveVar } from '@apollo/client'
 
-import { accountVar, Account } from 'cache'
+import { Account } from 'types'
+import { accountVar } from 'cache'
 
 export const setAccount = (account: Account) => accountVar(account)
 
