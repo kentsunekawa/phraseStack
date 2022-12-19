@@ -13,7 +13,7 @@ export const setVoice = (selectedVoice: SpeechSynthesisVoice | null) => {
 }
 
 export const usePronounciation = () => {
-  const { setCookie } = useCookies()
+  const { setCookie, removeCookie } = useCookies()
 
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false)
   const utterance = useMemo(() => new SpeechSynthesisUtterance(), [])
@@ -21,11 +21,16 @@ export const usePronounciation = () => {
   const availableVoices = useReactiveVar(availableVoicesVar)
 
   const selectVoice = useCallback(
-    (selectedVoice: SpeechSynthesisVoice) => {
-      setCookie('voice', selectedVoice.name)
+    (selectedVoice: SpeechSynthesisVoice | null) => {
+      if (selectedVoice) {
+        setCookie('voice', selectedVoice.name)
+      } else {
+        removeCookie('voice')
+      }
+
       setVoice(selectedVoice)
     },
-    [setCookie]
+    [setCookie, removeCookie]
   )
 
   const pronouce = useCallback(
@@ -59,5 +64,5 @@ export const usePronounciation = () => {
     }
   }, [utterance])
 
-  return { isSpeaking, availableVoices, pronouce, selectVoice }
+  return { isSpeaking, voice, availableVoices, pronouce, selectVoice }
 }

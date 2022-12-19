@@ -17,3 +17,5 @@ export const speechSynthesisUtteranceVar = makeVar<SpeechSynthesisUtterance>(
 export const voiceVar = makeVar<SpeechSynthesisVoice | null>(null)
 
 export const availableVoicesVar = makeVar<SpeechSynthesisVoice[]>([])
+
+export const isOpenSettingMenuVar = makeVar<boolean>(false)

@@ -7,6 +7,7 @@ import 'swiper/swiper.min.css'
 // import from this project
 import { useGetPagesConnectionQuery } from 'operations/queries/__generated__/GetPagesConnection'
 import { useLastCursor, setLastCursor, setIsLoading, useStyle } from 'hooks'
+import { Frame } from 'components/contents/Frame'
 import { PageSlide } from 'components/parts/PageSlide'
 import { DescriptionModal } from 'components/contents/DescriptionModal'
 import { IconButton } from 'components/parts/IconButton'
@@ -64,7 +65,7 @@ export const Home: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <Frame>
       {!isDone && activePage && (
         <>
           <DescriptionModal
@@ -75,7 +76,6 @@ export const Home: React.FC = () => {
               references: activePage.references,
             }}
           />
-
           <IconButton
             insertStyles={{ container: styles.descriptionButton }}
             onClick={() => setIsOpenDescriptionModal(true)}
@@ -111,6 +111,6 @@ export const Home: React.FC = () => {
           </>
         )}
       </div>
-    </>
+    </Frame>
   )
 }

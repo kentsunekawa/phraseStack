@@ -5,11 +5,5 @@ import { css } from 'styled-components'
 import { StyleBaseData } from 'hooks'
 
 export const createStyles = ({ theme }: StyleBaseData) => ({
-  descriptionButton: css`
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    background: #ddd;
-    z-index: 900;
-  `,
+  container: css``,
 })

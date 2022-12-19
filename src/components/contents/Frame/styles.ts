@@ -5,9 +5,9 @@ import { css } from 'styled-components'
 import { StyleBaseData } from 'hooks'
 
 export const createStyles = ({ theme }: StyleBaseData) => ({
-  descriptionButton: css`
+  settingMenuButton: css`
     position: fixed;
-    right: 20px;
+    left: 20px;
     bottom: 20px;
     background: #ddd;
     z-index: 900;

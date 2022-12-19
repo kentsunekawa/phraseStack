@@ -9,6 +9,7 @@ import {
   setAvailableVoices,
 } from './usePronounciation'
 import { useLastCursor, setLastCursor } from './useLastCursor'
+import { useSettingMenu, toggleSettingMenu } from './useSettingMenu'
 
 export type { StyleBaseData }
 
@@ -26,4 +27,6 @@ export {
   setVoice,
   useLastCursor,
   setLastCursor,
+  useSettingMenu,
+  toggleSettingMenu,
 }
