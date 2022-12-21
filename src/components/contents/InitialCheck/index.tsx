@@ -9,6 +9,7 @@ import {
   setAccount,
   setVoice,
   setAvailableVoices,
+  setLastCursor,
 } from 'hooks'
 import { useGetAccountLazyQuery } from 'operations/queries/__generated__/GetAccount'
 
@@ -30,6 +31,7 @@ export const InitialCheck: React.FC = () => {
           if (data.account) {
             setAccount(data.account)
             setIsInitialChecked(true)
+            setLastCursor(data.account.progressStatus?.lastCursor ?? null)
             navigate('/')
           }
         },

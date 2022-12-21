@@ -4,10 +4,14 @@ import { useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // import from this project
-import { Account } from 'types'
-import { useGetAccountsQuery } from 'operations/queries/__generated__/GetAccounts'
-import { useStyle, setAccount, useCookies } from 'hooks'
+import {
+  useGetAccountsQuery,
+  GetAccountsQuery,
+} from 'operations/queries/__generated__/GetAccounts'
+import { useStyle, setAccount, useCookies, setLastCursor } from 'hooks'
 import { createStyles } from './styles'
+
+type Account = GetAccountsQuery['accounts'][number]
 
 export const Accounts: React.FC = () => {
   const { styles } = useStyle(createStyles)
@@ -26,6 +30,7 @@ export const Accounts: React.FC = () => {
       if (account) {
         setAccount(account)
         setCookie('accountId', account.id)
+        setLastCursor(account.progressStatus?.lastCursor ?? null)
         navigate('/')
       }
     },

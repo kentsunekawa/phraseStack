@@ -5596,17 +5596,32 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type PublishProgressStatusMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type PublishProgressStatusMutation = { __typename?: 'Mutation', publishProgressStatus?: { __typename?: 'ProgressStatus', id: string, lastCursor?: string | null } | null };
+
+export type UpdateLastCursorMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  lastCursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdateLastCursorMutation = { __typename?: 'Mutation', updateProgressStatus?: { __typename?: 'ProgressStatus', id: string, lastCursor?: string | null } | null };
+
 export type GetAccountQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', lastCursor?: string | null } | null } | null };
+export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', id: string, lastCursor?: string | null } | null } | null };
 
 export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', lastCursor?: string | null } | null }> };
+export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', id: string, lastCursor?: string | null } | null }> };
 
 export type GetPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5619,9 +5634,78 @@ export type GetPagesConnectionQueryVariables = Exact<{
 }>;
 
 
-export type GetPagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PageConnection', edges: Array<{ __typename?: 'PageEdge', cursor: string, node: { __typename?: 'Page', description?: string | null, references?: string | null, title: string, id: string, phrases: Array<{ __typename?: 'Phrase', japanese: string, phrase: string, pronunciation: string, id: string }> } }> } };
+export type GetPagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PageConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null, startCursor?: string | null }, aggregate: { __typename?: 'Aggregate', count: number }, edges: Array<{ __typename?: 'PageEdge', cursor: string, node: { __typename?: 'Page', description?: string | null, references?: string | null, title: string, id: string, phrases: Array<{ __typename?: 'Phrase', japanese: string, phrase: string, pronunciation: string, id: string }> } }> } };
 
 
+export const PublishProgressStatusDocument = gql`
+    mutation PublishProgressStatus($id: ID) {
+  publishProgressStatus(where: {id: $id}) {
+    id
+    lastCursor
+  }
+}
+    `;
+export type PublishProgressStatusMutationFn = Apollo.MutationFunction<PublishProgressStatusMutation, PublishProgressStatusMutationVariables>;
+
+/**
+ * __usePublishProgressStatusMutation__
+ *
+ * To run a mutation, you first call `usePublishProgressStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishProgressStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishProgressStatusMutation, { data, loading, error }] = usePublishProgressStatusMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePublishProgressStatusMutation(baseOptions?: Apollo.MutationHookOptions<PublishProgressStatusMutation, PublishProgressStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PublishProgressStatusMutation, PublishProgressStatusMutationVariables>(PublishProgressStatusDocument, options);
+      }
+export type PublishProgressStatusMutationHookResult = ReturnType<typeof usePublishProgressStatusMutation>;
+export type PublishProgressStatusMutationResult = Apollo.MutationResult<PublishProgressStatusMutation>;
+export type PublishProgressStatusMutationOptions = Apollo.BaseMutationOptions<PublishProgressStatusMutation, PublishProgressStatusMutationVariables>;
+export const UpdateLastCursorDocument = gql`
+    mutation UpdateLastCursor($id: ID, $lastCursor: String) {
+  updateProgressStatus(data: {lastCursor: $lastCursor}, where: {id: $id}) {
+    id
+    lastCursor
+  }
+}
+    `;
+export type UpdateLastCursorMutationFn = Apollo.MutationFunction<UpdateLastCursorMutation, UpdateLastCursorMutationVariables>;
+
+/**
+ * __useUpdateLastCursorMutation__
+ *
+ * To run a mutation, you first call `useUpdateLastCursorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateLastCursorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateLastCursorMutation, { data, loading, error }] = useUpdateLastCursorMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      lastCursor: // value for 'lastCursor'
+ *   },
+ * });
+ */
+export function useUpdateLastCursorMutation(baseOptions?: Apollo.MutationHookOptions<UpdateLastCursorMutation, UpdateLastCursorMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateLastCursorMutation, UpdateLastCursorMutationVariables>(UpdateLastCursorDocument, options);
+      }
+export type UpdateLastCursorMutationHookResult = ReturnType<typeof useUpdateLastCursorMutation>;
+export type UpdateLastCursorMutationResult = Apollo.MutationResult<UpdateLastCursorMutation>;
+export type UpdateLastCursorMutationOptions = Apollo.BaseMutationOptions<UpdateLastCursorMutation, UpdateLastCursorMutationVariables>;
 export const GetAccountDocument = gql`
     query GetAccount($id: ID!) {
   account(where: {id: $id}) {
@@ -5631,6 +5715,7 @@ export const GetAccountDocument = gql`
     }
     name
     progressStatus {
+      id
       lastCursor
     }
   }
@@ -5673,6 +5758,7 @@ export const GetAccountsDocument = gql`
       url
     }
     progressStatus {
+      id
       lastCursor
     }
   }
@@ -5749,6 +5835,16 @@ export type GetPagesQueryResult = Apollo.QueryResult<GetPagesQuery, GetPagesQuer
 export const GetPagesConnectionDocument = gql`
     query GetPagesConnection($after: String, $first: Int) {
   pagesConnection(after: $after, first: $first) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      pageSize
+      startCursor
+    }
+    aggregate {
+      count
+    }
     edges {
       cursor
       node {

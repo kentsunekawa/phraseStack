@@ -8,7 +8,7 @@ export type GetAccountQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', lastCursor?: string | null } | null } | null };
+export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', id: string, lastCursor?: string | null } | null } | null };
 
 
 export const GetAccountDocument = gql`
@@ -20,6 +20,7 @@ export const GetAccountDocument = gql`
     }
     name
     progressStatus {
+      id
       lastCursor
     }
   }

@@ -4,7 +4,7 @@ import 'styled-components/macro'
 // import from this project
 import { Page } from 'types'
 import { useStyle } from 'hooks'
-import { Heading } from 'components/parts/Texts'
+import { Text } from 'components/parts/Texts'
 import { Phrase } from 'components/parts/Phrase'
 import { createStyles } from './styles'
 
@@ -22,7 +22,7 @@ export const PageSlide: React.FC<Props> = ({ page }) => {
       <div css={styles.scrollArea}>
         <div css={styles.inner}>
           <div css={styles.title}>
-            <Heading size='h5'>{title}</Heading>
+            <Text size='large'>{title}</Text>
           </div>
           <div>
             {phrases.map((phrase) => (

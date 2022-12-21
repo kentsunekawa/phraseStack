@@ -6,6 +6,7 @@ query GetAccounts {
       url
     }
     progressStatus {
+      id
       lastCursor
     }
   }

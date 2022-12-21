@@ -1,0 +1,6 @@
+mutation UpdateLastCursor($id: ID, $lastCursor: String) {
+  updateProgressStatus(data: { lastCursor: $lastCursor }, where: { id: $id }) {
+    id
+    lastCursor
+  }
+}

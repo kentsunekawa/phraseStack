@@ -6,7 +6,15 @@ import 'swiper/swiper.min.css'
 
 // import from this project
 import { useGetPagesConnectionQuery } from 'operations/queries/__generated__/GetPagesConnection'
-import { useLastCursor, setLastCursor, setIsLoading, useStyle } from 'hooks'
+import { useUpdateLastCursorMutation } from 'operations/mutations/__generated__/UpdateLastCursor'
+import { usePublishProgressStatusMutation } from 'operations/mutations/__generated__/PublishProgressStatus'
+import {
+  useLastCursor,
+  setLastCursor,
+  setIsLoading,
+  useStyle,
+  useAccount,
+} from 'hooks'
 import { Frame } from 'components/contents/Frame'
 import { PageSlide } from 'components/parts/PageSlide'
 import { DescriptionModal } from 'components/contents/DescriptionModal'
@@ -16,6 +24,9 @@ import { createStyles } from './styles'
 export const Home: React.FC = () => {
   const { styles } = useStyle(createStyles)
 
+  const { account } = useAccount()
+
+  const [isEnable, setIsEnable] = useState<boolean>(false)
   const { lastCursor } = useLastCursor()
   const [isDone, setIsDone] = useState<boolean>(false)
   const [isOpenDescriptionModal, setIsOpenDescriptionModal] =
@@ -25,13 +36,18 @@ export const Home: React.FC = () => {
 
   const { data } = useGetPagesConnectionQuery({
     variables: {
-      after: lastCursor,
+      after: lastCursor || null,
+      first: 3,
     },
     onCompleted: () => {
       setIsDone(false)
       setIsLoading(false)
+      setIsEnable(true)
     },
   })
+
+  const [updateLastCursor] = useUpdateLastCursorMutation()
+  const [publishProgressStatus] = usePublishProgressStatusMutation()
 
   const activePage = useMemo(
     () =>
@@ -42,22 +58,67 @@ export const Home: React.FC = () => {
     [data, activeIndex]
   )
 
+  const pageInfo = useMemo(() => data?.pagesConnection.pageInfo ?? null, [data])
+
+  const doPublish = useCallback(() => {
+    if (account && account.progressStatus) {
+      void publishProgressStatus({
+        variables: {
+          id: account.progressStatus.id,
+        },
+        onCompleted: () => {
+          setIsEnable(true)
+        },
+      })
+    }
+  }, [account, publishProgressStatus])
+
+  const doUpdateLastCursor = useCallback(
+    (cursor: string) => {
+      if (account && account.progressStatus) {
+        setIsEnable(false)
+        void updateLastCursor({
+          variables: {
+            id: account.progressStatus.id,
+            lastCursor: cursor,
+          },
+          onCompleted: () => {
+            doPublish()
+          },
+          onError: () => {},
+        })
+      }
+    },
+    [account, updateLastCursor, doPublish]
+  )
+
   const handleChangeSlide = useCallback(
     (index: number) => {
       if (data) {
         setActiveIndex(index)
+
         const { edges } = data.pagesConnection
-        const pageConnection = edges[index]
-        if (pageConnection) setCurrentCursor(pageConnection.cursor)
-        if (index > edges.length - 1) setIsDone(true)
+        if (index > edges.length - 1) {
+          setIsDone(true)
+        } else {
+          const page = edges[index]
+          if (page) {
+            setCurrentCursor(page.cursor)
+          }
+          if (index > 0) {
+            const prevPage = edges[index - 1]
+            doUpdateLastCursor(prevPage.cursor)
+          }
+        }
       }
     },
-    [data]
+    [data, doUpdateLastCursor]
   )
 
   const goNext = useCallback(() => {
     setIsLoading(true)
     setLastCursor(currentCursor)
+    setActiveIndex(null)
   }, [currentCursor])
 
   useEffect(() => {
@@ -66,31 +127,40 @@ export const Home: React.FC = () => {
 
   return (
     <Frame>
-      {!isDone && activePage && (
-        <>
-          <DescriptionModal
-            open={isOpenDescriptionModal}
-            onClose={() => setIsOpenDescriptionModal(false)}
-            contents={{
-              description: activePage.description,
-              references: activePage.references,
-            }}
-          />
-          <IconButton
-            insertStyles={{ container: styles.descriptionButton }}
-            onClick={() => setIsOpenDescriptionModal(true)}
-            icon={<Description />}
-          />
-        </>
-      )}
+      {!isDone &&
+        activePage &&
+        (!!activePage.description || !!activePage.references) && (
+          <>
+            <DescriptionModal
+              open={isOpenDescriptionModal}
+              onClose={() => setIsOpenDescriptionModal(false)}
+              contents={{
+                description: activePage.description,
+                references: activePage.references,
+              }}
+            />
+            <IconButton
+              insertStyles={{ container: styles.descriptionButton }}
+              onClick={() => setIsOpenDescriptionModal(true)}
+              icon={<Description />}
+            />
+          </>
+        )}
       <div>
+        {!isDone && (
+          <div>
+            <span>{activeIndex !== null ? activeIndex + 1 : '-'}</span>/
+            <span>{pageInfo?.pageSize ?? '-'}</span>
+          </div>
+        )}
         {data && (
           <>
             {data.pagesConnection.edges.length < 1 ? (
               'no data'
             ) : (
               <Swiper
-                allowSlidePrev={false}
+                allowSlideNext={isEnable}
+                allowSlidePrev={isEnable}
                 onSlideChange={(swiper) =>
                   handleChangeSlide(swiper.activeIndex)
                 }

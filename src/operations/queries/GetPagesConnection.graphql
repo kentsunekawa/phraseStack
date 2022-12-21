@@ -1,5 +1,15 @@
 query GetPagesConnection($after: String, $first: Int) {
   pagesConnection(after: $after, first: $first) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      pageSize
+      startCursor
+    }
+    aggregate {
+      count
+    }
     edges {
       cursor
       node {
