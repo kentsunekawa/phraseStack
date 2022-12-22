@@ -6,6 +6,7 @@ import { useStyle, useSettingMenu, toggleSettingMenu } from 'hooks'
 import { Modal } from 'components/parts/Modal'
 
 import { VoiceSelector } from './VoiceSelector'
+import { PageNumSelector } from './PageNumSelector'
 import { createStyles } from './styles'
 
 export const SettingMenu: React.FC = () => {
@@ -19,6 +20,7 @@ export const SettingMenu: React.FC = () => {
       onClose={() => toggleSettingMenu(false)}
       title='Setting'
     >
+      <PageNumSelector />
       <VoiceSelector />
     </Modal>
   )

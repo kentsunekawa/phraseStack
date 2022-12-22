@@ -10,6 +10,8 @@ import {
 } from './usePronounciation'
 import { useLastCursor, setLastCursor } from './useLastCursor'
 import { useSettingMenu, toggleSettingMenu } from './useSettingMenu'
+import { usePageNum, setPageNum } from './usePageNum'
+import { useFixWindowHeight } from './useFixWindowHeight'
 
 export type { StyleBaseData }
 
@@ -29,4 +31,7 @@ export {
   setLastCursor,
   useSettingMenu,
   toggleSettingMenu,
+  usePageNum,
+  setPageNum,
+  useFixWindowHeight,
 }

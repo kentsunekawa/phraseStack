@@ -10,6 +10,7 @@ import {
   setVoice,
   setAvailableVoices,
   setLastCursor,
+  setPageNum,
 } from 'hooks'
 import { useGetAccountLazyQuery } from 'operations/queries/__generated__/GetAccount'
 
@@ -57,6 +58,12 @@ export const InitialCheck: React.FC = () => {
       setVoice(ailableVoices.find(({ name }) => name === cookies.voice) ?? null)
     }
   }, [cookies.voice])
+
+  useEffect(() => {
+    if (cookies.pageNum) {
+      setPageNum(Number(cookies.pageNum))
+    }
+  }, [cookies.pageNum])
 
   return <></>
 }
