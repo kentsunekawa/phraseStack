@@ -12,4 +12,14 @@ export const createStyles = ({ theme }: StyleBaseData) => ({
     background: #ddd;
     z-index: 900;
   `,
+  listButton: css`
+    position: fixed;
+    left: 80px;
+    bottom: 20px;
+    background: #ddd;
+    z-index: 900;
+  `,
+  hide: css`
+    display: none;
+  `,
 })

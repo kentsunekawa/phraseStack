@@ -1,7 +1,7 @@
 import 'styled-components/macro'
 import { useCallback, useState, useMemo, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Description } from '@mui/icons-material'
+import { Description, List } from '@mui/icons-material'
 import 'swiper/swiper.min.css'
 
 // import from this project
@@ -17,6 +17,7 @@ import {
   usePageNum,
 } from 'hooks'
 import { Frame } from 'components/contents/Frame'
+import { PageList } from 'components/contents/PageList'
 import { PageSlide } from 'components/parts/PageSlide'
 import { DoneSlide } from 'components/parts/DoneSlide'
 import { DescriptionModal } from 'components/contents/DescriptionModal'
@@ -33,6 +34,7 @@ export const Home: React.FC = () => {
   const [isDone, setIsDone] = useState<boolean>(false)
   const [isOpenDescriptionModal, setIsOpenDescriptionModal] =
     useState<boolean>(false)
+  const [isOpenPageList, setIsOpenPageList] = useState<boolean>(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [currentCursor, setCurrentCursor] = useState<string | null>(lastCursor)
 
@@ -45,6 +47,7 @@ export const Home: React.FC = () => {
       setIsDone(false)
       setIsLoading(false)
     },
+    fetchPolicy: 'no-cache',
   })
 
   const [updateLastCursor] = useUpdateLastCursorMutation()
@@ -52,10 +55,9 @@ export const Home: React.FC = () => {
 
   const activePage = useMemo(
     () =>
-      (data &&
-        activeIndex !== null &&
-        data.pagesConnection.edges[activeIndex]?.node) ??
-      null,
+      data && activeIndex !== null
+        ? data.pagesConnection.edges[activeIndex]?.node
+        : null,
     [data, activeIndex]
   )
 
@@ -127,57 +129,69 @@ export const Home: React.FC = () => {
   }, [])
 
   return (
-    <Frame>
-      {!isDone &&
-        activePage &&
-        (!!activePage.description || !!activePage.references) && (
-          <>
-            <DescriptionModal
-              open={isOpenDescriptionModal}
-              onClose={() => setIsOpenDescriptionModal(false)}
-              contents={{
-                description: activePage.description,
-                references: activePage.references,
-              }}
-            />
-            <IconButton
-              insertStyles={{ container: styles.descriptionButton }}
-              onClick={() => setIsOpenDescriptionModal(true)}
-              icon={<Description />}
-            />
-          </>
-        )}
-      <div>
-        {pages !== null && (
-          <>
-            {pages.length < 1 ? (
-              'no data'
-            ) : (
-              <Swiper
-                onSlideChange={(swiper) =>
-                  handleChangeSlide(swiper.activeIndex)
-                }
-                onInit={(swiper) => handleChangeSlide(swiper.activeIndex)}
-              >
-                {pages.map((page) => (
-                  <SwiperSlide key={page.id}>
-                    <PageSlide
-                      page={page}
-                      pageInfo={{
-                        pageNum: activeIndex !== null ? activeIndex + 1 : '-',
-                        maxNum: pageInfo?.pageSize ?? '-',
-                      }}
-                    />
-                  </SwiperSlide>
-                ))}
-                <SwiperSlide>
-                  <DoneSlide goNext={goNext} />
-                </SwiperSlide>
-              </Swiper>
+    <>
+      <PageList
+        isOpen={isOpenPageList}
+        dismiss={() => setIsOpenPageList(false)}
+      />
+      <div css={[isOpenPageList && styles.hide]}>
+        <Frame>
+          {!isDone &&
+            activePage &&
+            (!!activePage.description || !!activePage.references) && (
+              <>
+                <DescriptionModal
+                  open={isOpenDescriptionModal}
+                  onClose={() => setIsOpenDescriptionModal(false)}
+                  contents={{
+                    description: activePage?.description,
+                    references: activePage.references,
+                  }}
+                />
+                <IconButton
+                  insertStyles={{ container: styles.descriptionButton }}
+                  onClick={() => setIsOpenDescriptionModal(true)}
+                  icon={<Description />}
+                />
+              </>
             )}
-          </>
-        )}
+          <IconButton
+            insertStyles={{ container: styles.listButton }}
+            onClick={() => setIsOpenPageList(true)}
+            icon={<List />}
+          />
+
+          {pages !== null && (
+            <>
+              {pages.length < 1 ? (
+                'no data'
+              ) : (
+                <Swiper
+                  onSlideChange={(swiper) =>
+                    handleChangeSlide(swiper.activeIndex)
+                  }
+                  onInit={(swiper) => handleChangeSlide(swiper.activeIndex)}
+                >
+                  {pages.map((page) => (
+                    <SwiperSlide key={page.id}>
+                      <PageSlide
+                        page={page}
+                        pageInfo={{
+                          pageNum: activeIndex !== null ? activeIndex + 1 : '-',
+                          maxNum: pageInfo?.pageSize ?? '-',
+                        }}
+                      />
+                    </SwiperSlide>
+                  ))}
+                  <SwiperSlide>
+                    <DoneSlide goNext={goNext} />
+                  </SwiperSlide>
+                </Swiper>
+              )}
+            </>
+          )}
+        </Frame>
       </div>
-    </Frame>
+    </>
   )
 }

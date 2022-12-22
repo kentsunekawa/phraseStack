@@ -1,6 +1,6 @@
 // import from libraries
 import 'styled-components/macro'
-import { Menu } from '@mui/icons-material'
+import { Settings } from '@mui/icons-material'
 
 // import from this project
 import { useStyle, toggleSettingMenu } from 'hooks'
@@ -19,7 +19,7 @@ export const Frame: React.FC<Props> = ({ children }) => {
       <IconButton
         insertStyles={{ container: styles.settingMenuButton }}
         onClick={() => toggleSettingMenu(true)}
-        icon={<Menu />}
+        icon={<Settings />}
       />
       {children}
     </>
