@@ -6,6 +6,7 @@ import { Page } from 'types'
 import { useStyle, useFixWindowHeight } from 'hooks'
 import { Text } from 'components/parts/Texts'
 import { Phrase } from 'components/parts/Phrase'
+import { PageProgress } from 'components/parts/PageProgress'
 import { createStyles } from './styles'
 
 export type Props = {
@@ -16,10 +17,7 @@ export type Props = {
   }
 }
 
-export const PageSlide: React.FC<Props> = ({
-  page,
-  pageInfo: { pageNum, maxNum },
-}) => {
+export const PageSlide: React.FC<Props> = ({ page, pageInfo }) => {
   const { styles } = useStyle(createStyles)
   const { wrapperRef } = useFixWindowHeight()
 
@@ -29,11 +27,13 @@ export const PageSlide: React.FC<Props> = ({
     <div css={styles.container} ref={wrapperRef}>
       <div css={styles.scrollArea}>
         <div css={styles.inner}>
-          <div css={styles.title}>
-            <div>
-              <span>{pageNum}</span>/<span>{maxNum}</span>
+          <div css={styles.titleArea}>
+            <div css={styles.progress}>
+              <PageProgress pageInfo={pageInfo} />
             </div>
-            <Text size='large'>{title}</Text>
+            <div css={styles.title}>
+              <Text size='large'>{title}</Text>
+            </div>
           </div>
           <div>
             {phrases.map((phrase) => (

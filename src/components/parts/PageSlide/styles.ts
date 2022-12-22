@@ -10,16 +10,22 @@ export const createStyles = ({ theme }: StyleBaseData) => ({
     width: 100vw;
     height: 100vh;
   `,
-  title: css`
+  titleArea: css`
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 60px;
-    padding: 8px;
     overflow: hidden;
     background: #fafafa;
     border-bottom: 1px solid #ddd;
+    display: flex;
+  `,
+  title: css`
+    padding: 8px;
+    width: calc(100% - 60px);
+    height: 100%;
+    width: 100%;
   `,
   scrollArea: css`
     width: 100%;
@@ -30,4 +36,5 @@ export const createStyles = ({ theme }: StyleBaseData) => ({
     padding: 24px;
     padding-top: 84px;
   `,
+  progress: css``,
 })

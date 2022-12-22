@@ -9,6 +9,7 @@ import {
   GetAccountsQuery,
 } from 'operations/queries/__generated__/GetAccounts'
 import { useStyle, setAccount, useCookies, setLastCursor } from 'hooks'
+import { UserBox } from 'components/parts/UserBox'
 import { createStyles } from './styles'
 
 type Account = GetAccountsQuery['accounts'][number]
@@ -39,19 +40,20 @@ export const Accounts: React.FC = () => {
 
   return (
     <div css={styles.container}>
-      {accounts &&
-        accounts.map((account) => (
-          <button
-            key={account.id}
-            onClick={() => selectAccont(account)}
-            type='button'
-          >
-            {account.name}
-            {account.avatar?.url && (
-              <img src={account.avatar.url} alt={account.name} />
-            )}
-          </button>
-        ))}
+      <div css={styles.list}>
+        {accounts &&
+          accounts.map((account) => (
+            <div key={account.id} css={styles.item}>
+              <button
+                onClick={() => selectAccont(account)}
+                type='button'
+                css={styles.button}
+              >
+                <UserBox name={account.name} url={account.avatar?.url} />
+              </button>
+            </div>
+          ))}
+      </div>
     </div>
   )
 }

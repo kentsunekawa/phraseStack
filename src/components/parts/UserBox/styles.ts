@@ -6,16 +6,12 @@ import { StyleBaseData } from 'hooks'
 
 export const createStyles = ({ theme }: StyleBaseData) => ({
   container: css`
-    padding: 40px 24px;
-  `,
-  list: css`
     display: flex;
     flex-wrap: wrap;
+    gap: 8px 0;
+    justify-content: center;
   `,
-  item: css`
-    width: 50%;
-  `,
-  button: css`
+  name: css`
     width: 100%;
   `,
 })
