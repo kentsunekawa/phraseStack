@@ -2,15 +2,20 @@
 import 'styled-components/macro'
 
 // import from this project
-import { useStyle, useSettingMenu, toggleSettingMenu } from 'hooks'
+import {
+  useStyle,
+  useSettingMenu,
+  toggleSettingMenu,
+  useFormStyles,
+} from 'hooks'
 import { Modal } from 'components/parts/Modal'
-
 import { VoiceSelector } from './VoiceSelector'
 import { PageNumSelector } from './PageNumSelector'
 import { createStyles } from './styles'
 
 export const SettingMenu: React.FC = () => {
   const { styles } = useStyle(createStyles)
+  const { styles: formStyles } = useFormStyles()
 
   const { isOpen } = useSettingMenu()
 
@@ -19,9 +24,21 @@ export const SettingMenu: React.FC = () => {
       open={isOpen}
       onClose={() => toggleSettingMenu(false)}
       title='Setting'
+      actions={[
+        {
+          label: 'Close',
+          action: () => toggleSettingMenu(false),
+        },
+      ]}
     >
-      <PageNumSelector />
-      <VoiceSelector />
+      <div css={formStyles.rows}>
+        <div css={formStyles.row}>
+          <PageNumSelector />
+        </div>
+        <div css={formStyles.row}>
+          <VoiceSelector />
+        </div>
+      </div>
     </Modal>
   )
 }

@@ -1,5 +1,6 @@
 // import from libraries
 import 'styled-components/macro'
+import { Button } from '@mui/material'
 
 // import from this project
 import { useStyle, useFixWindowHeight } from 'hooks'
@@ -15,9 +16,11 @@ export const DoneSlide: React.FC<Props> = ({ goNext }) => {
 
   return (
     <div css={styles.container} ref={wrapperRef}>
-      <button type='button' onClick={goNext}>
-        続ける
-      </button>
+      <div css={styles.main}>
+        <Button onClick={goNext} size='large' variant='outlined'>
+          Continue
+        </Button>
+      </div>
     </div>
   )
 }

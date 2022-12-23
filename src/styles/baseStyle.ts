@@ -14,6 +14,7 @@ export const baseStyle = css`
     letter-spacing: 0;
     overflow-wrap: break-word;
     list-style: none;
+    text-transform: none !important;
   }
 
   img {

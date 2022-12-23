@@ -4,11 +4,12 @@ import 'styled-components/macro'
 // import from this project
 import { useStyle } from 'hooks'
 import { MarkdownDisplay } from 'components/parts/MarkdownDisplay'
-import { Heading } from 'components/parts/Texts'
+import { Subtitle } from 'components/parts/Texts'
 import { Modal, Props as ModalProps } from 'components/parts/Modal'
 import { createStyles } from './styles'
 
 export type Props = ModalProps & {
+  dismiss: () => void
   contents: {
     description?: string | null
     references?: string | null
@@ -17,6 +18,7 @@ export type Props = ModalProps & {
 
 export const DescriptionModal: React.FC<Props> = ({
   contents,
+  dismiss,
   ...modalProps
 }) => {
   const { styles } = useStyle(createStyles)
@@ -24,11 +26,23 @@ export const DescriptionModal: React.FC<Props> = ({
   const { description, references } = contents
 
   return (
-    <Modal {...modalProps}>
+    <Modal
+      fullScreen
+      onClose={dismiss}
+      actions={[
+        {
+          label: 'Close',
+          action: dismiss,
+        },
+      ]}
+      {...modalProps}
+    >
       <div css={styles.container}>
         {description && (
-          <div>
-            <Heading size='h5'>Description</Heading>
+          <div css={styles.section.container}>
+            <Subtitle size='large' css={styles.section.title}>
+              Description
+            </Subtitle>
             <div>
               <MarkdownDisplay>{description}</MarkdownDisplay>
             </div>
@@ -36,7 +50,9 @@ export const DescriptionModal: React.FC<Props> = ({
         )}
         {references && (
           <div>
-            <Heading size='h5'>References</Heading>
+            <Subtitle size='large' css={styles.section.title}>
+              References
+            </Subtitle>
             <div>
               <MarkdownDisplay>{references}</MarkdownDisplay>
             </div>

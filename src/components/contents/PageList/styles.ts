@@ -1,8 +1,9 @@
 // import from libraries
 import { css } from 'styled-components'
+import { rgba } from 'polished'
 
 // import from this project
-import { StyleBaseData } from 'hooks'
+import type { StyleBaseData } from 'hooks'
 
 export const createStyles = ({ theme }: StyleBaseData) => {
   const itemBase = css`
@@ -33,7 +34,7 @@ export const createStyles = ({ theme }: StyleBaseData) => {
     `,
     activeItem: css`
       ${itemBase}
-      background: #ededed;
+      background: ${rgba(theme.palette.primary.main, 0.1)};
     `,
     loading: css`
       justify-content: center;

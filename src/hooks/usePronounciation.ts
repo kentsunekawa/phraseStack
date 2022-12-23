@@ -33,7 +33,7 @@ export const usePronounciation = () => {
     [setCookie, removeCookie]
   )
 
-  const pronouce = useCallback(
+  const pronounce = useCallback(
     (text: string) => {
       const currentVoice = voice ?? availableVoices[0]
 
@@ -64,5 +64,5 @@ export const usePronounciation = () => {
     }
   }, [utterance])
 
-  return { isSpeaking, voice, availableVoices, pronouce, selectVoice }
+  return { isSpeaking, voice, availableVoices, pronounce, selectVoice }
 }

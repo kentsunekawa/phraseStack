@@ -2,14 +2,16 @@
 import { css } from 'styled-components'
 
 // import from this project
-import { StyleBaseData } from 'hooks'
+import type { StyleBaseData } from 'hooks'
 
 export const createStyles = ({ theme }: StyleBaseData) => ({
   settingMenuButton: css`
     position: fixed;
-    left: 20px;
-    bottom: 20px;
+    left: 16px;
+    bottom: 16px;
     background: #ddd;
     z-index: 900;
+    background: ${theme.palette.primary.main};
+    color: #fff;
   `,
 })

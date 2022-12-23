@@ -2,6 +2,7 @@ import 'styled-components/macro'
 import { useCallback, useState, useMemo, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Description, List } from '@mui/icons-material'
+import { IconButton } from '@mui/material'
 import 'swiper/swiper.min.css'
 
 // import from this project
@@ -21,7 +22,7 @@ import { PageList } from 'components/contents/PageList'
 import { PageSlide } from 'components/parts/PageSlide'
 import { DoneSlide } from 'components/parts/DoneSlide'
 import { DescriptionModal } from 'components/contents/DescriptionModal'
-import { IconButton } from 'components/parts/IconButton'
+import { ProgressBar } from 'components/parts/ProgressBar'
 import { createStyles } from './styles'
 
 export const Home: React.FC = () => {
@@ -103,6 +104,7 @@ export const Home: React.FC = () => {
         if (index > edges.length - 1) {
           setIsDone(true)
         } else {
+          setIsDone(false)
           setActiveIndex(index)
           const page = edges[index]
           if (page) {
@@ -136,57 +138,62 @@ export const Home: React.FC = () => {
       />
       <div css={[isOpenPageList && styles.hide]}>
         <Frame>
+          <div css={styles.overlay} />
           {!isDone &&
             activePage &&
             (!!activePage.description || !!activePage.references) && (
               <>
                 <DescriptionModal
                   open={isOpenDescriptionModal}
-                  onClose={() => setIsOpenDescriptionModal(false)}
+                  dismiss={() => setIsOpenDescriptionModal(false)}
                   contents={{
                     description: activePage?.description,
                     references: activePage.references,
                   }}
                 />
                 <IconButton
-                  insertStyles={{ container: styles.descriptionButton }}
+                  css={styles.descriptionButton}
                   onClick={() => setIsOpenDescriptionModal(true)}
-                  icon={<Description />}
-                />
+                >
+                  <Description />
+                </IconButton>
               </>
             )}
           <IconButton
-            insertStyles={{ container: styles.listButton }}
+            css={styles.listButton}
             onClick={() => setIsOpenPageList(true)}
-            icon={<List />}
-          />
+          >
+            <List />
+          </IconButton>
 
           {pages !== null && (
             <>
               {pages.length < 1 ? (
                 'no data'
               ) : (
-                <Swiper
-                  onSlideChange={(swiper) =>
-                    handleChangeSlide(swiper.activeIndex)
-                  }
-                  onInit={(swiper) => handleChangeSlide(swiper.activeIndex)}
-                >
-                  {pages.map((page) => (
-                    <SwiperSlide key={page.id}>
-                      <PageSlide
-                        page={page}
-                        pageInfo={{
-                          pageNum: activeIndex !== null ? activeIndex + 1 : '-',
-                          maxNum: pageInfo?.pageSize ?? '-',
-                        }}
-                      />
+                <>
+                  <div css={styles.progressBar}>
+                    <ProgressBar
+                      max={pageInfo?.pageSize ?? null}
+                      current={activeIndex !== null ? activeIndex + 1 : null}
+                    />
+                  </div>
+                  <Swiper
+                    onSlideChange={(swiper) =>
+                      handleChangeSlide(swiper.activeIndex)
+                    }
+                    onInit={(swiper) => handleChangeSlide(swiper.activeIndex)}
+                  >
+                    {pages.map((page) => (
+                      <SwiperSlide key={page.id}>
+                        <PageSlide page={page} />
+                      </SwiperSlide>
+                    ))}
+                    <SwiperSlide>
+                      <DoneSlide goNext={goNext} />
                     </SwiperSlide>
-                  ))}
-                  <SwiperSlide>
-                    <DoneSlide goNext={goNext} />
-                  </SwiperSlide>
-                </Swiper>
+                  </Swiper>
+                </>
               )}
             </>
           )}

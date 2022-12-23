@@ -1,7 +1,8 @@
 // import from libraries
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import 'styled-components/macro'
-import { RecordVoiceOver } from '@mui/icons-material'
+import { RecordVoiceOver, KeyboardArrowRight } from '@mui/icons-material'
+import { IconButton, Button } from '@mui/material'
 
 // import from this project
 import { Phrase as PhraseType } from 'types'
@@ -15,37 +16,38 @@ export type Props = {
 }
 
 export const Phrase: React.FC<Props> = ({ phrase }) => {
-  const { styles } = useStyle(createStyles)
+  const { styles, theme } = useStyle(createStyles)
   const [isShowJapanese, setIsShowJapanese] = useState<boolean>(false)
 
-  const { pronouce, isSpeaking } = usePronounciation()
-
+  const { isSpeaking, pronounce } = usePronounciation()
   const { phrase: english, japanese, pronunciation } = phrase
-
-  const play = useCallback(() => {
-    pronouce(pronunciation)
-  }, [pronouce, pronunciation])
 
   return (
     <div css={styles.container}>
-      <div>
-        {!isSpeaking && (
-          <button type='button' onClick={play}>
-            <RecordVoiceOver />
-          </button>
+      <IconButton
+        onClick={() => pronounce(pronunciation)}
+        disabled={isSpeaking}
+        css={styles.pronounceButton}
+      >
+        <RecordVoiceOver />
+      </IconButton>
+      <div css={styles.phrase}>
+        <MarkdownDisplay>{english}</MarkdownDisplay>
+      </div>
+      <div css={styles.jpArea.container}>
+        {isShowJapanese ? (
+          <Text>{japanese}</Text>
+        ) : (
+          <Button
+            onClick={() => setIsShowJapanese(true)}
+            variant='text'
+            size='small'
+            endIcon={<KeyboardArrowRight />}
+            css={styles.jpArea.button}
+          >
+            See Japanese
+          </Button>
         )}
-        <div>
-          <MarkdownDisplay>{english}</MarkdownDisplay>
-        </div>
-        <div>
-          {isShowJapanese ? (
-            <Text>{japanese}</Text>
-          ) : (
-            <button type='button' onClick={() => setIsShowJapanese(true)}>
-              訳を見る
-            </button>
-          )}
-        </div>
       </div>
     </div>
   )

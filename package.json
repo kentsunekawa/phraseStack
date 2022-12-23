@@ -8,6 +8,7 @@
     "@mui/material": "^5.10.17",
     "@mui/styled-engine-sc": "^5.10.16",
     "graphql": "^16.6.0",
+    "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",

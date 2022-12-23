@@ -18,8 +18,8 @@ export type Props = {
   dismiss: () => void
 }
 
-export const Main: React.FC<Props> = ({ dismiss }) => {
-  const { styles } = useStyle(createStyles)
+export const PageList: React.FC<Props> = ({ dismiss, isOpen }) => {
+  const { styles, theme } = useStyle(createStyles)
   const { lastCursor } = useLastCursor()
 
   const [pageEdges, setPageEdges] = useState<
@@ -32,6 +32,7 @@ export const Main: React.FC<Props> = ({ dismiss }) => {
   const [aggregate, setAggregate] = useState<number | null>(null)
 
   const handleYes = useCallback(() => {
+    setSelectedIndex(null)
     if (selectedIndex !== null) {
       const cursor =
         selectedIndex === 0 ? null : pageEdges[selectedIndex - 1].cursor
@@ -60,7 +61,7 @@ export const Main: React.FC<Props> = ({ dismiss }) => {
   useGetPagesConnectionQuery({
     variables: {
       after,
-      first: 3,
+      first: 20,
     },
     onCompleted: (data) => {
       setAggregate(data.pagesConnection.aggregate.count)
@@ -72,15 +73,22 @@ export const Main: React.FC<Props> = ({ dismiss }) => {
 
   return (
     <>
-      <Modal open={selectedIndex !== null}>
-        <Text>Do you start from this page?</Text>
-        <Button onClick={() => setSelectedIndex(null)}>No</Button>
-        <Button onClick={handleYes}>Yes</Button>
-      </Modal>
-      <div css={styles.container}>
-        <IconButton onClick={dismiss} css={styles.closeButton}>
-          <Close />
-        </IconButton>
+      <Modal
+        open={selectedIndex !== null}
+        title='Do you start from this page?'
+        onClose={() => setSelectedIndex(null)}
+        actions={[
+          {
+            label: 'No',
+            action: () => setSelectedIndex(null),
+          },
+          {
+            label: 'Yes',
+            action: handleYes,
+          },
+        ]}
+      />
+      <Modal fullScreen open={isOpen} onClose={dismiss}>
         <div css={styles.inner}>
           <div>
             {pageEdges.map(({ node, cursor }, i) => (
@@ -108,7 +116,7 @@ export const Main: React.FC<Props> = ({ dismiss }) => {
             {isLoading ? (
               <div css={styles.item}>
                 <div css={[styles.pageItem, styles.loading]}>
-                  <PuffLoader size={40} />
+                  <PuffLoader size={40} color={theme.palette.primary.main} />
                 </div>
               </div>
             ) : (
@@ -122,14 +130,7 @@ export const Main: React.FC<Props> = ({ dismiss }) => {
             )}
           </div>
         </div>
-      </div>
+      </Modal>
     </>
   )
-}
-
-export const PageList: React.FC<Props> = (props) => {
-  const { isOpen } = props
-  if (!isOpen) return null
-
-  return <Main {...props} />
 }
