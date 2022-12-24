@@ -51,8 +51,10 @@ export const Modal: React.FC<Props> = ({
       )}
       {actions && (
         <DialogActions>
-          {actions.map(({ action, label }) => (
-            <Button onClick={() => action()}>{label}</Button>
+          {actions.map(({ action, label }, i) => (
+            <Button onClick={() => action()} key={`${i.toString()}`}>
+              {label}
+            </Button>
           ))}
         </DialogActions>
       )}

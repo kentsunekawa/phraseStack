@@ -16,6 +16,15 @@ export const createStyles = ({ theme }: StyleBaseData) => ({
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  `,
+  text: css`
+    color: #fff;
+    display: block;
+    width: 100%;
   `,
   button: css`
     border-color: #fff;

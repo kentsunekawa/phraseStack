@@ -7,8 +7,6 @@ import 'swiper/swiper.min.css'
 
 // import from this project
 import { useGetPagesConnectionQuery } from 'operations/queries/__generated__/GetPagesConnection'
-import { useUpdateLastCursorMutation } from 'operations/mutations/__generated__/UpdateLastCursor'
-import { usePublishProgressStatusMutation } from 'operations/mutations/__generated__/PublishProgressStatus'
 import {
   useLastCursor,
   setLastCursor,
@@ -16,11 +14,13 @@ import {
   useStyle,
   useAccount,
   usePageNum,
+  useUpdateLastCursor,
 } from 'hooks'
 import { Frame } from 'components/contents/Frame'
 import { PageList } from 'components/contents/PageList'
 import { PageSlide } from 'components/parts/PageSlide'
 import { DoneSlide } from 'components/parts/DoneSlide'
+import { NoData } from 'components/parts/NoData'
 import { DescriptionModal } from 'components/contents/DescriptionModal'
 import { ProgressBar } from 'components/parts/ProgressBar'
 import { createStyles } from './styles'
@@ -51,8 +51,7 @@ export const Home: React.FC = () => {
     fetchPolicy: 'no-cache',
   })
 
-  const [updateLastCursor] = useUpdateLastCursorMutation()
-  const [publishProgressStatus] = usePublishProgressStatusMutation()
+  const { updateLastCursor } = useUpdateLastCursor()
 
   const activePage = useMemo(
     () =>
@@ -68,33 +67,13 @@ export const Home: React.FC = () => {
   )
   const pageInfo = useMemo(() => data?.pagesConnection.pageInfo ?? null, [data])
 
-  const doPublish = useCallback(() => {
-    if (account && account.progressStatus) {
-      void publishProgressStatus({
-        variables: {
-          id: account.progressStatus.id,
-        },
-        onError: () => {},
-      })
-    }
-  }, [account, publishProgressStatus])
-
   const doUpdateLastCursor = useCallback(
     (cursor: string) => {
-      if (account && account.progressStatus) {
-        void updateLastCursor({
-          variables: {
-            id: account.progressStatus.id,
-            lastCursor: cursor,
-          },
-          onCompleted: () => {
-            doPublish()
-          },
-          onError: () => {},
-        })
+      if (account?.progressStatus) {
+        updateLastCursor(account.progressStatus.id, cursor)
       }
     },
-    [account, updateLastCursor, doPublish]
+    [account, updateLastCursor]
   )
 
   const handleChangeSlide = useCallback(
@@ -166,35 +145,35 @@ export const Home: React.FC = () => {
             <List />
           </IconButton>
 
-          {pages !== null && (
+          {pages !== null && pageInfo && (
             <>
-              {pages.length < 1 ? (
-                'no data'
-              ) : (
-                <>
-                  <div css={styles.progressBar}>
-                    <ProgressBar
-                      max={pageInfo?.pageSize ?? null}
-                      current={activeIndex !== null ? activeIndex + 1 : null}
-                    />
-                  </div>
-                  <Swiper
-                    onSlideChange={(swiper) =>
-                      handleChangeSlide(swiper.activeIndex)
-                    }
-                    onInit={(swiper) => handleChangeSlide(swiper.activeIndex)}
-                  >
-                    {pages.map((page) => (
-                      <SwiperSlide key={page.id}>
-                        <PageSlide page={page} />
-                      </SwiperSlide>
-                    ))}
-                    <SwiperSlide>
-                      <DoneSlide goNext={goNext} />
-                    </SwiperSlide>
-                  </Swiper>
-                </>
-              )}
+              <div css={styles.progressBar}>
+                <ProgressBar
+                  max={pageInfo?.pageSize ?? null}
+                  current={activeIndex !== null ? activeIndex + 1 : null}
+                />
+              </div>
+              <Swiper
+                onSlideChange={(swiper) =>
+                  handleChangeSlide(swiper.activeIndex)
+                }
+                onInit={(swiper) => handleChangeSlide(swiper.activeIndex)}
+              >
+                {pages.map((page) => (
+                  <SwiperSlide key={page.id}>
+                    <PageSlide page={page} />
+                  </SwiperSlide>
+                ))}
+                {pageInfo.hasNextPage ? (
+                  <SwiperSlide>
+                    <DoneSlide goNext={goNext} />
+                  </SwiperSlide>
+                ) : (
+                  <SwiperSlide>
+                    <NoData />
+                  </SwiperSlide>
+                )}
+              </Swiper>
             </>
           )}
         </Frame>

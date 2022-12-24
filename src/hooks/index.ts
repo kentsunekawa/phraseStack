@@ -13,6 +13,7 @@ import { useSettingMenu, toggleSettingMenu } from './useSettingMenu'
 import { usePageNum, setPageNum } from './usePageNum'
 import { useFixWindowHeight } from './useFixWindowHeight'
 import { useFormStyles } from './useFormStyles'
+import { useUpdateLastCursor } from './useUpdateLastCursor'
 
 export type { StyleBaseData }
 
@@ -36,4 +37,5 @@ export {
   setPageNum,
   useFixWindowHeight,
   useFormStyles,
+  useUpdateLastCursor,
 }

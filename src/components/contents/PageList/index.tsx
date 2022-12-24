@@ -2,15 +2,20 @@
 import 'styled-components/macro'
 import { useState, useCallback, useMemo } from 'react'
 import PuffLoader from 'react-spinners/PuffLoader'
-import { Close } from '@mui/icons-material'
-import { Button, IconButton } from '@mui/material'
+import { Button } from '@mui/material'
 
 // import from this project
-import { useStyle, setLastCursor, useLastCursor } from 'hooks'
+import {
+  useStyle,
+  setLastCursor,
+  useLastCursor,
+  useUpdateLastCursor,
+  useAccount,
+  setIsLoading as setIsGlobalLoading,
+} from 'hooks'
 import { GetPagesConnectionQuery, PageInfo } from 'operations/types.d'
 import { useGetPagesConnectionQuery } from 'operations/queries/__generated__/GetPagesConnection'
 import { Modal } from 'components/parts/Modal'
-import { Text } from 'components/parts/Texts'
 import { createStyles } from './styles'
 
 export type Props = {
@@ -21,6 +26,7 @@ export type Props = {
 export const PageList: React.FC<Props> = ({ dismiss, isOpen }) => {
   const { styles, theme } = useStyle(createStyles)
   const { lastCursor } = useLastCursor()
+  const { account } = useAccount()
 
   const [pageEdges, setPageEdges] = useState<
     GetPagesConnectionQuery['pagesConnection']['edges']
@@ -31,15 +37,31 @@ export const PageList: React.FC<Props> = ({ dismiss, isOpen }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [aggregate, setAggregate] = useState<number | null>(null)
 
+  useGetPagesConnectionQuery({
+    variables: {
+      after,
+      first: 20,
+    },
+    onCompleted: (data) => {
+      setAggregate(data.pagesConnection.aggregate.count)
+      setPageEdges((prev) => [...prev, ...data.pagesConnection.edges])
+      setPageInfo(data.pagesConnection.pageInfo)
+      setIsLoading(false)
+    },
+  })
+  const { updateLastCursor } = useUpdateLastCursor()
+
   const handleYes = useCallback(() => {
-    setSelectedIndex(null)
-    if (selectedIndex !== null) {
+    if (selectedIndex !== null && account?.progressStatus) {
+      setIsGlobalLoading(true)
       const cursor =
         selectedIndex === 0 ? null : pageEdges[selectedIndex - 1].cursor
       setLastCursor(cursor)
+      updateLastCursor(account.progressStatus.id, cursor)
       dismiss()
     }
-  }, [pageEdges, selectedIndex, dismiss])
+    setSelectedIndex(null)
+  }, [pageEdges, selectedIndex, account, dismiss, updateLastCursor])
 
   const loadMore = useCallback(() => {
     if (pageInfo && pageInfo.endCursor) {
@@ -57,19 +79,6 @@ export const PageList: React.FC<Props> = ({ dismiss, isOpen }) => {
 
     return null
   }, [lastCursor, pageEdges])
-
-  useGetPagesConnectionQuery({
-    variables: {
-      after,
-      first: 20,
-    },
-    onCompleted: (data) => {
-      setAggregate(data.pagesConnection.aggregate.count)
-      setPageEdges((prev) => [...prev, ...data.pagesConnection.edges])
-      setPageInfo(data.pagesConnection.pageInfo)
-      setIsLoading(false)
-    },
-  })
 
   return (
     <>

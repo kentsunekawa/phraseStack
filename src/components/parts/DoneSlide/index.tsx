@@ -17,7 +17,12 @@ export const DoneSlide: React.FC<Props> = ({ goNext }) => {
   return (
     <div css={styles.container} ref={wrapperRef}>
       <div css={styles.main}>
-        <Button onClick={goNext} size='large' variant='outlined'>
+        <Button
+          onClick={goNext}
+          size='large'
+          variant='outlined'
+          css={styles.button}
+        >
           Continue
         </Button>
       </div>
