@@ -5,7 +5,10 @@ export const useCookies = () => {
     'accountId' | 'voice' | 'pageNum',
     {
       accountId: string
-      voice: string
+      voice: {
+        name: string
+        rate: number
+      }
       pageNum: number
     }
   >(['accountId', 'voice', 'pageNum'])

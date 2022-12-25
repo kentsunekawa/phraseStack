@@ -8,6 +8,7 @@ import {
   setIsInitialChecked,
   setAccount,
   setVoice,
+  setRate,
   setAvailableVoices,
   setLastCursor,
   setPageNum,
@@ -55,7 +56,10 @@ export const InitialCheck: React.FC = () => {
     setAvailableVoices(ailableVoices)
 
     if (cookies.voice) {
-      setVoice(ailableVoices.find(({ name }) => name === cookies.voice) ?? null)
+      setVoice(
+        ailableVoices.find(({ name }) => name === cookies.voice.name) ?? null
+      )
+      setRate(cookies.voice.rate)
     }
   }, [cookies.voice])
 

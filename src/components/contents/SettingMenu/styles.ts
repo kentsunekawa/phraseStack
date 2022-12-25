@@ -5,5 +5,7 @@ import { css } from 'styled-components'
 import type { StyleBaseData } from 'hooks'
 
 export const createStyles = ({ theme }: StyleBaseData) => ({
-  container: css``,
+  container: css`
+    width: 240px;
+  `,
 })

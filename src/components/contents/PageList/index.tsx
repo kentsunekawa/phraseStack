@@ -84,7 +84,7 @@ export const PageList: React.FC<Props> = ({ dismiss, isOpen }) => {
     <>
       <Modal
         open={selectedIndex !== null}
-        title='Do you start from this page?'
+        title='Start from this page?'
         onClose={() => setSelectedIndex(null)}
         actions={[
           {

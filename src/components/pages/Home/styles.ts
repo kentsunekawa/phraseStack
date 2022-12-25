@@ -44,7 +44,8 @@ export const createStyles = ({ theme }: StyleBaseData) => {
       z-index: 100;
       width: 100vw;
       height: 72px;
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(7px);
     `,
   }
 }

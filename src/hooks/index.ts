@@ -6,6 +6,7 @@ import { useAccount, setAccount } from './useAccount'
 import {
   usePronounciation,
   setVoice,
+  setRate,
   setAvailableVoices,
 } from './usePronounciation'
 import { useLastCursor, setLastCursor } from './useLastCursor'
@@ -29,6 +30,7 @@ export {
   usePronounciation,
   setAvailableVoices,
   setVoice,
+  setRate,
   useLastCursor,
   setLastCursor,
   useSettingMenu,

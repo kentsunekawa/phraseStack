@@ -13,7 +13,7 @@ import {
 import { useStyle, usePageNum } from 'hooks'
 import { createStyles } from './styles'
 
-const availablePages = ['3', '5', '10', '15', '20', '30']
+const availablePages = ['5', '10', '15', '20', '30']
 
 export const PageNumSelector: React.FC = () => {
   const { styles } = useStyle(createStyles)

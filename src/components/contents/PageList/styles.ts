@@ -20,7 +20,7 @@ export const createStyles = ({ theme }: StyleBaseData) => {
     container: css`
       position: relative;
       width: 100vw;
-      z-index: 990;
+      z-index: 998;
       background: #fff;
       padding-bottom: 60px;
     `,

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useReactiveVar } from '@apollo/client'
 
-import { voiceVar, availableVoicesVar } from 'cache'
+import { voiceVar, availableVoicesVar, pronounceRateVar } from 'cache'
 import { useCookies } from './useCookies'
 
 export const setAvailableVoices = (availableVoices: SpeechSynthesisVoice[]) => {
@@ -12,25 +12,34 @@ export const setVoice = (selectedVoice: SpeechSynthesisVoice | null) => {
   voiceVar(selectedVoice)
 }
 
+export const setRate = (rate: number) => {
+  pronounceRateVar(rate)
+}
+
 export const usePronounciation = () => {
-  const { setCookie, removeCookie } = useCookies()
+  const { setCookie } = useCookies()
 
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false)
   const utterance = useMemo(() => new SpeechSynthesisUtterance(), [])
   const voice = useReactiveVar(voiceVar)
+  const rate = useReactiveVar(pronounceRateVar)
   const availableVoices = useReactiveVar(availableVoicesVar)
 
   const selectVoice = useCallback(
     (selectedVoice: SpeechSynthesisVoice | null) => {
-      if (selectedVoice) {
-        setCookie('voice', selectedVoice.name)
-      } else {
-        removeCookie('voice')
-      }
+      setCookie('voice', { name: selectedVoice?.name ?? '', rate })
 
-      setVoice(selectedVoice)
+      voiceVar(selectedVoice)
     },
-    [setCookie, removeCookie]
+    [rate, setCookie]
+  )
+
+  const changeRate = useCallback(
+    (changedRate: number) => {
+      setCookie('voice', { name: voice?.name ?? '', rate: changedRate })
+      pronounceRateVar(changedRate)
+    },
+    [voice, setCookie]
   )
 
   const pronounce = useCallback(
@@ -40,10 +49,10 @@ export const usePronounciation = () => {
       utterance.voice = currentVoice
       utterance.lang = currentVoice.lang
       utterance.text = text
-      utterance.rate = 0.8
+      utterance.rate = rate
       speechSynthesis.speak(utterance)
     },
-    [utterance, voice, availableVoices]
+    [utterance, voice, rate, availableVoices]
   )
 
   useEffect(() => {
@@ -64,5 +73,13 @@ export const usePronounciation = () => {
     }
   }, [utterance])
 
-  return { isSpeaking, voice, availableVoices, pronounce, selectVoice }
+  return {
+    isSpeaking,
+    voice,
+    rate,
+    availableVoices,
+    pronounce,
+    selectVoice,
+    changeRate,
+  }
 }
