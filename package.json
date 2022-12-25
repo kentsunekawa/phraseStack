@@ -10,7 +10,6 @@
     "graphql": "^16.6.0",
     "polished": "^4.2.2",
     "react": "^18.2.0",
-    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.4",
     "react-router-dom": "^6.4.5",
@@ -29,7 +28,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "serve": "serve -p 3000 -s ./build"
   },
   "eslintConfig": {
     "extends": [

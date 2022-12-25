@@ -18,7 +18,7 @@ export const voiceVar = makeVar<SpeechSynthesisVoice | null>(null)
 
 export const pronounceRateVar = makeVar<number>(1)
 
-export const pageNumVar = makeVar<number>(3)
+export const pageNumVar = makeVar<number>(10)
 
 export const availableVoicesVar = makeVar<SpeechSynthesisVoice[]>([])
 

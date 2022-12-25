@@ -1,6 +1,5 @@
 // import from libraries
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { CookiesProvider } from 'react-cookie'
 
 // import from this project
 import { useInitialCheck } from 'hooks'
@@ -17,28 +16,26 @@ const App = () => {
   const { isInitialChecked } = useInitialCheck()
 
   return (
-    <CookiesProvider>
-      <BrowserRouter>
-        <ApolloProvider>
-          <ThemeProvider>
-            <GlobalStyle />
-            <Loading />
-            {!isInitialChecked ? (
-              <>
-                <InitialCheck />
-                <SplashScreen />
-              </>
-            ) : (
-              <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/accounts' element={<Accounts />} />
-                <Route path='*' element={<Navigate to='/' replace />} />
-              </Routes>
-            )}
-          </ThemeProvider>
-        </ApolloProvider>
-      </BrowserRouter>
-    </CookiesProvider>
+    <BrowserRouter>
+      <ApolloProvider>
+        <ThemeProvider>
+          <GlobalStyle />
+          <Loading />
+          {!isInitialChecked ? (
+            <>
+              <InitialCheck />
+              <SplashScreen />
+            </>
+          ) : (
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/accounts' element={<Accounts />} />
+              <Route path='*' element={<Navigate to='/' replace />} />
+            </Routes>
+          )}
+        </ThemeProvider>
+      </ApolloProvider>
+    </BrowserRouter>
   )
 }
 

@@ -8,7 +8,7 @@ import {
   useGetAccountsQuery,
   GetAccountsQuery,
 } from 'operations/queries/__generated__/GetAccounts'
-import { useStyle, setAccount, useCookies, setLastCursor } from 'hooks'
+import { useStyle, setAccount, setLastCursor } from 'hooks'
 import { UserBox } from 'components/parts/UserBox'
 import { createStyles } from './styles'
 
@@ -17,7 +17,6 @@ type Account = GetAccountsQuery['accounts'][number]
 export const Accounts: React.FC = () => {
   const { styles } = useStyle(createStyles)
   const navigate = useNavigate()
-  const { setCookie } = useCookies()
 
   const { data: getAccountsData } = useGetAccountsQuery()
 
@@ -30,12 +29,12 @@ export const Accounts: React.FC = () => {
     (account: Account) => {
       if (account) {
         setAccount(account)
-        setCookie('accountId', account.id)
+        localStorage.setItem('accountId', account.id)
         setLastCursor(account.progressStatus?.lastCursor ?? null)
         navigate('/')
       }
     },
-    [navigate, setCookie]
+    [navigate]
   )
 
   return (

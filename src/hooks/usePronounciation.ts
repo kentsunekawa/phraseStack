@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useReactiveVar } from '@apollo/client'
 
+import { setLocalStorage } from 'utils'
 import { voiceVar, availableVoicesVar, pronounceRateVar } from 'cache'
-import { useCookies } from './useCookies'
 
 export const setAvailableVoices = (availableVoices: SpeechSynthesisVoice[]) => {
   availableVoicesVar(availableVoices)
@@ -17,8 +17,6 @@ export const setRate = (rate: number) => {
 }
 
 export const usePronounciation = () => {
-  const { setCookie } = useCookies()
-
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false)
   const utterance = useMemo(() => new SpeechSynthesisUtterance(), [])
   const voice = useReactiveVar(voiceVar)
@@ -27,20 +25,16 @@ export const usePronounciation = () => {
 
   const selectVoice = useCallback(
     (selectedVoice: SpeechSynthesisVoice | null) => {
-      setCookie('voice', { name: selectedVoice?.name ?? '', rate })
-
+      setLocalStorage('voice', selectedVoice?.name ?? '')
       voiceVar(selectedVoice)
     },
-    [rate, setCookie]
+    []
   )
 
-  const changeRate = useCallback(
-    (changedRate: number) => {
-      setCookie('voice', { name: voice?.name ?? '', rate: changedRate })
-      pronounceRateVar(changedRate)
-    },
-    [voice, setCookie]
-  )
+  const changeRate = useCallback((changedRate: number) => {
+    setLocalStorage('pronounceRate', changedRate.toString())
+    pronounceRateVar(changedRate)
+  }, [])
 
   const pronounce = useCallback(
     (text: string) => {

@@ -1,24 +1,20 @@
 import { useCallback } from 'react'
 import { useReactiveVar } from '@apollo/client'
 
+import { setLocalStorage } from 'utils'
 import { pageNumVar } from 'cache'
-import { useCookies } from './useCookies'
 
 export const setPageNum = (pageNum: number) => {
   pageNumVar(pageNum)
 }
 
 export const usePageNum = () => {
-  const { setCookie } = useCookies()
   const pageNum = useReactiveVar(pageNumVar)
 
-  const selectPageNum = useCallback(
-    (num: number) => {
-      setCookie('pageNum', num)
-      pageNumVar(num)
-    },
-    [setCookie]
-  )
+  const selectPageNum = useCallback((num: number) => {
+    setLocalStorage('pageNum', num.toString())
+    pageNumVar(num)
+  }, [])
 
   return {
     pageNum,

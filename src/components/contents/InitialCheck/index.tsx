@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // import from this project
+import { getLocalStorageItem } from 'utils'
 import {
-  useCookies,
   setIsInitialChecked,
   setAccount,
   setVoice,
@@ -18,16 +18,16 @@ import { useGetAccountLazyQuery } from 'operations/queries/__generated__/GetAcco
 speechSynthesis.getVoices()
 
 export const InitialCheck: React.FC = () => {
-  const { cookies } = useCookies()
   const navigate = useNavigate()
 
   const [getAccount] = useGetAccountLazyQuery()
 
   useEffect(() => {
-    if (cookies.accountId) {
+    const accountId = getLocalStorageItem('accountId')
+    if (accountId) {
       void getAccount({
         variables: {
-          id: cookies.accountId,
+          id: accountId,
         },
         onCompleted: (data) => {
           if (data.account) {
@@ -46,28 +46,31 @@ export const InitialCheck: React.FC = () => {
       setIsInitialChecked(true)
       navigate('/accounts')
     }
-  }, [navigate, cookies, getAccount])
+  }, [navigate, getAccount])
 
   useEffect(() => {
+    const voice = getLocalStorageItem('voice')
+    const pronounceRate = getLocalStorageItem('pronounceRate')
     const ailableVoices = speechSynthesis
       .getVoices()
       .filter(({ lang }) => lang === 'en-US')
 
     setAvailableVoices(ailableVoices)
 
-    if (cookies.voice) {
-      setVoice(
-        ailableVoices.find(({ name }) => name === cookies.voice.name) ?? null
-      )
-      setRate(cookies.voice.rate)
+    if (voice) {
+      setVoice(ailableVoices.find(({ name }) => name === voice) ?? null)
     }
-  }, [cookies.voice])
+    if (pronounceRate) {
+      setRate(Number(pronounceRate))
+    }
+  }, [])
 
   useEffect(() => {
-    if (cookies.pageNum) {
-      setPageNum(Number(cookies.pageNum))
+    const pageNum = getLocalStorageItem('pageNum')
+    if (pageNum) {
+      setPageNum(Number(pageNum))
     }
-  }, [cookies.pageNum])
+  }, [])
 
   return <></>
 }
