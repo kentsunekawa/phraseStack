@@ -1,0 +1,13 @@
+query GetAccounts {
+  accounts {
+    id
+    name
+    avatar {
+      url
+    }
+    progressStatus {
+      id
+      lastCursor
+    }
+  }
+}

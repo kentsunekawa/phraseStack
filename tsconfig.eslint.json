@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".eslintrc.js"
+  ],
+  "exclude": [
+    "src/components/**/_temp",
+    "node_modules",
+    "public",
+  ]
+}

@@ -1,0 +1,13 @@
+query GetAccount($id: ID!) {
+  account(where: { id: $id }) {
+    id
+    avatar {
+      url
+    }
+    name
+    progressStatus {
+      id
+      lastCursor
+    }
+  }
+}

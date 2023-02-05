@@ -1,0 +1,6 @@
+mutation PublishProgressStatus($id: ID) {
+  publishProgressStatus(where: { id: $id }) {
+    id
+    lastCursor
+  }
+}
