@@ -12,16 +12,11 @@ export const createStyles = ({ theme }: StyleBaseData) => ({
     align-items: center;
   `,
   phrase: css`
-    width: calc(100% - 56px);
-  `,
-  pronounceButton: css`
-    background: ${theme.palette.primary.main};
-    color: #fff;
+    width: 100%;
   `,
   jpArea: {
     container: css`
       width: 100%;
-      padding-left: 56px;
     `,
     button: css`
       color: ${theme.palette.primary.light};

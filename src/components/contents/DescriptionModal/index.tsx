@@ -12,7 +12,6 @@ export type Props = ModalProps & {
   dismiss: () => void
   contents: {
     description?: string | null
-    references?: string | null
   }
 }
 
@@ -23,7 +22,7 @@ export const DescriptionModal: React.FC<Props> = ({
 }) => {
   const { styles } = useStyle(createStyles)
 
-  const { description, references } = contents
+  const { description } = contents
 
   return (
     <Modal
@@ -45,16 +44,6 @@ export const DescriptionModal: React.FC<Props> = ({
             </Subtitle>
             <div>
               <MarkdownDisplay>{description}</MarkdownDisplay>
-            </div>
-          </div>
-        )}
-        {references && (
-          <div>
-            <Subtitle size='large' css={styles.section.title}>
-              References
-            </Subtitle>
-            <div>
-              <MarkdownDisplay>{references}</MarkdownDisplay>
             </div>
           </div>
         )}

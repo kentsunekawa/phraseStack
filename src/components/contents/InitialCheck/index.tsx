@@ -7,9 +7,6 @@ import { getLocalStorageItem } from 'utils'
 import {
   setIsInitialChecked,
   setAccount,
-  setVoice,
-  setRate,
-  setAvailableVoices,
   setLastCursor,
   setPageNum,
 } from 'hooks'
@@ -47,23 +44,6 @@ export const InitialCheck: React.FC = () => {
       navigate('/accounts')
     }
   }, [navigate, getAccount])
-
-  useEffect(() => {
-    const voice = getLocalStorageItem('voice')
-    const pronounceRate = getLocalStorageItem('pronounceRate')
-    const ailableVoices = speechSynthesis
-      .getVoices()
-      .filter(({ lang }) => lang === 'en-US')
-
-    setAvailableVoices(ailableVoices)
-
-    if (voice) {
-      setVoice(ailableVoices.find(({ name }) => name === voice) ?? null)
-    }
-    if (pronounceRate) {
-      setRate(Number(pronounceRate))
-    }
-  }, [])
 
   useEffect(() => {
     const pageNum = getLocalStorageItem('pageNum')

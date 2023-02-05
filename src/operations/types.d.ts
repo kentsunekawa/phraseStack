@@ -2194,6 +2194,7 @@ export type Page = Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
+  main?: Maybe<Scalars['String']>;
   phrases: Array<Phrase>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -2287,6 +2288,7 @@ export type PageConnection = {
 export type PageCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   description?: InputMaybe<Scalars['String']>;
+  main?: InputMaybe<Scalars['String']>;
   phrases?: InputMaybe<PhraseCreateManyInlineInput>;
   references?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
@@ -2398,6 +2400,25 @@ export type PageManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  main?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  main_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  main_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  main_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  main_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  main_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  main_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  main_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  main_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  main_starts_with?: InputMaybe<Scalars['String']>;
   phrases_every?: InputMaybe<PhraseWhereInput>;
   phrases_none?: InputMaybe<PhraseWhereInput>;
   phrases_some?: InputMaybe<PhraseWhereInput>;
@@ -2483,6 +2504,8 @@ export enum PageOrderByInput {
   DescriptionDesc = 'description_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  MainAsc = 'main_ASC',
+  MainDesc = 'main_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   ReferencesAsc = 'references_ASC',
@@ -2495,6 +2518,7 @@ export enum PageOrderByInput {
 
 export type PageUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
+  main?: InputMaybe<Scalars['String']>;
   phrases?: InputMaybe<PhraseUpdateManyInlineInput>;
   references?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -2519,6 +2543,7 @@ export type PageUpdateManyInlineInput = {
 
 export type PageUpdateManyInput = {
   description?: InputMaybe<Scalars['String']>;
+  main?: InputMaybe<Scalars['String']>;
   references?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -2639,6 +2664,25 @@ export type PageWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  main?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  main_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  main_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  main_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  main_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  main_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  main_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  main_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  main_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  main_starts_with?: InputMaybe<Scalars['String']>;
   phrases_every?: InputMaybe<PhraseWhereInput>;
   phrases_none?: InputMaybe<PhraseWhereInput>;
   phrases_some?: InputMaybe<PhraseWhereInput>;
@@ -5623,18 +5667,13 @@ export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: string, name: string, avatar?: { __typename?: 'Asset', url: string } | null, progressStatus?: { __typename?: 'ProgressStatus', id: string, lastCursor?: string | null } | null }> };
 
-export type GetPagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetPagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', description?: string | null, references?: string | null, phrases: Array<{ __typename?: 'Phrase', id: string, phrase: string, pronunciation: string, japanese: string }> }> };
-
 export type GetPagesConnectionQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetPagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PageConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null, startCursor?: string | null }, aggregate: { __typename?: 'Aggregate', count: number }, edges: Array<{ __typename?: 'PageEdge', cursor: string, node: { __typename?: 'Page', description?: string | null, references?: string | null, title: string, id: string, phrases: Array<{ __typename?: 'Phrase', japanese: string, phrase: string, pronunciation: string, id: string }> } }> } };
+export type GetPagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PageConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null, startCursor?: string | null }, aggregate: { __typename?: 'Aggregate', count: number }, edges: Array<{ __typename?: 'PageEdge', cursor: string, node: { __typename?: 'Page', main?: string | null, description?: string | null, title: string, id: string, phrases: Array<{ __typename?: 'Phrase', japanese: string, phrase: string, id: string }> } }> } };
 
 
 export const PublishProgressStatusDocument = gql`
@@ -5791,47 +5830,6 @@ export function useGetAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetAccountsQueryHookResult = ReturnType<typeof useGetAccountsQuery>;
 export type GetAccountsLazyQueryHookResult = ReturnType<typeof useGetAccountsLazyQuery>;
 export type GetAccountsQueryResult = Apollo.QueryResult<GetAccountsQuery, GetAccountsQueryVariables>;
-export const GetPagesDocument = gql`
-    query GetPages {
-  pages {
-    phrases {
-      id
-      phrase
-      pronunciation
-      japanese
-    }
-    description
-    references
-  }
-}
-    `;
-
-/**
- * __useGetPagesQuery__
- *
- * To run a query within a React component, call `useGetPagesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPagesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetPagesQuery(baseOptions?: Apollo.QueryHookOptions<GetPagesQuery, GetPagesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPagesQuery, GetPagesQueryVariables>(GetPagesDocument, options);
-      }
-export function useGetPagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPagesQuery, GetPagesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPagesQuery, GetPagesQueryVariables>(GetPagesDocument, options);
-        }
-export type GetPagesQueryHookResult = ReturnType<typeof useGetPagesQuery>;
-export type GetPagesLazyQueryHookResult = ReturnType<typeof useGetPagesLazyQuery>;
-export type GetPagesQueryResult = Apollo.QueryResult<GetPagesQuery, GetPagesQueryVariables>;
 export const GetPagesConnectionDocument = gql`
     query GetPagesConnection($after: String, $first: Int) {
   pagesConnection(after: $after, first: $first) {
@@ -5848,14 +5846,13 @@ export const GetPagesConnectionDocument = gql`
     edges {
       cursor
       node {
+        main
         phrases {
           japanese
           phrase
-          pronunciation
           id
         }
         description
-        references
         title
         id
       }

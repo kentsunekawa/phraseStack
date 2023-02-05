@@ -1,28 +1,40 @@
-import * as Types from '../../types.d';
+import * as Types from '../../types.d'
 
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
-const defaultOptions = {} as const;
-export type GetPagesQueryVariables = Types.Exact<{ [key: string]: never; }>;
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
+const defaultOptions = {} as const
+export type GetPagesQueryVariables = Types.Exact<{ [key: string]: never }>
 
-
-export type GetPagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', description?: string | null, references?: string | null, phrases: Array<{ __typename?: 'Phrase', id: string, phrase: string, pronunciation: string, japanese: string }> }> };
-
+export type GetPagesQuery = {
+  __typename?: 'Query'
+  pages: Array<{
+    __typename?: 'Page'
+    description?: string | null
+    references?: string | null
+    phrases: Array<{
+      __typename?: 'Phrase'
+      id: string
+      phrase: string
+      pronunciation: string
+      japanese: string
+    }>
+  }>
+}
 
 export const GetPagesDocument = gql`
-    query GetPages {
-  pages {
-    phrases {
-      id
-      phrase
-      pronunciation
-      japanese
+  query GetPages {
+    pages {
+      phrases {
+        id
+        phrase
+        pronunciation
+        japanese
+      }
+      description
+      references
     }
-    description
-    references
   }
-}
-    `;
+`
 
 /**
  * __useGetPagesQuery__
@@ -39,14 +51,32 @@ export const GetPagesDocument = gql`
  *   },
  * });
  */
-export function useGetPagesQuery(baseOptions?: Apollo.QueryHookOptions<GetPagesQuery, GetPagesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPagesQuery, GetPagesQueryVariables>(GetPagesDocument, options);
-      }
-export function useGetPagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPagesQuery, GetPagesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPagesQuery, GetPagesQueryVariables>(GetPagesDocument, options);
-        }
-export type GetPagesQueryHookResult = ReturnType<typeof useGetPagesQuery>;
-export type GetPagesLazyQueryHookResult = ReturnType<typeof useGetPagesLazyQuery>;
-export type GetPagesQueryResult = Apollo.QueryResult<GetPagesQuery, GetPagesQueryVariables>;
+export function useGetPagesQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetPagesQuery, GetPagesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetPagesQuery, GetPagesQueryVariables>(
+    GetPagesDocument,
+    options
+  )
+}
+export function useGetPagesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetPagesQuery,
+    GetPagesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetPagesQuery, GetPagesQueryVariables>(
+    GetPagesDocument,
+    options
+  )
+}
+export type GetPagesQueryHookResult = ReturnType<typeof useGetPagesQuery>
+export type GetPagesLazyQueryHookResult = ReturnType<
+  typeof useGetPagesLazyQuery
+>
+export type GetPagesQueryResult = Apollo.QueryResult<
+  GetPagesQuery,
+  GetPagesQueryVariables
+>

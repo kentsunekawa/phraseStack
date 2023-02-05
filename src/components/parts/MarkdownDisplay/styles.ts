@@ -10,13 +10,19 @@ export const createStyles = ({ theme }: StyleBaseData) => ({
       font-size: 14px;
       ul,
       ol {
-        list-style-type: circle;
+        li {
+          list-style-type: circle !important;
+        }
       }
       ul ul {
-        list-style-type: circle;
+        li {
+          list-style-type: circle !important;
+        }
       }
       ul {
-        list-style-type: disc;
+        li {
+          list-style-type: disc !important;
+        }
       }
     }
   `,

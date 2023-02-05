@@ -39,6 +39,9 @@ export const createStyles = ({ theme }: StyleBaseData) => ({
   inner: css`
     padding: 96px 24px;
   `,
+  mainArea: css`
+    width: 100%;
+  `,
   phrasesArea: css`
     display: flex;
     flex-wrap: wrap;

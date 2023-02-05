@@ -1,4 +1,4 @@
-type LocalStorageKey = 'accountId' | 'voice' | 'pronounceRate' | 'pageNum'
+type LocalStorageKey = 'accountId' | 'pageNum'
 
 export const getLocalStorageItem = (key: LocalStorageKey) =>
   localStorage.getItem(key)

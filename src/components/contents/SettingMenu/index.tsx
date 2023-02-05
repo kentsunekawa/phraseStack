@@ -9,9 +9,7 @@ import {
   useFormStyles,
 } from 'hooks'
 import { Modal } from 'components/parts/Modal'
-import { VoiceSelector } from './VoiceSelector'
 import { PageNumSelector } from './PageNumSelector'
-import { RangeSlider } from './RangeSlider'
 import { createStyles } from './styles'
 
 export const SettingMenu: React.FC = () => {
@@ -36,12 +34,6 @@ export const SettingMenu: React.FC = () => {
         <div css={formStyles.rows}>
           <div css={formStyles.row}>
             <PageNumSelector />
-          </div>
-          <div css={formStyles.row}>
-            <VoiceSelector />
-          </div>
-          <div css={formStyles.row}>
-            <RangeSlider />
           </div>
         </div>
       </div>

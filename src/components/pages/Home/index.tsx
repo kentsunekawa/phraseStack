@@ -118,26 +118,23 @@ export const Home: React.FC = () => {
       <div css={[isOpenPageList && styles.hide]}>
         <Frame>
           <div css={styles.overlay} />
-          {!isDone &&
-            activePage &&
-            (!!activePage.description || !!activePage.references) && (
-              <>
-                <DescriptionModal
-                  open={isOpenDescriptionModal}
-                  dismiss={() => setIsOpenDescriptionModal(false)}
-                  contents={{
-                    description: activePage?.description,
-                    references: activePage.references,
-                  }}
-                />
-                <IconButton
-                  css={styles.descriptionButton}
-                  onClick={() => setIsOpenDescriptionModal(true)}
-                >
-                  <Description />
-                </IconButton>
-              </>
-            )}
+          {!isDone && activePage && !!activePage.description && (
+            <>
+              <DescriptionModal
+                open={isOpenDescriptionModal}
+                dismiss={() => setIsOpenDescriptionModal(false)}
+                contents={{
+                  description: activePage?.description,
+                }}
+              />
+              <IconButton
+                css={styles.descriptionButton}
+                onClick={() => setIsOpenDescriptionModal(true)}
+              >
+                <Description />
+              </IconButton>
+            </>
+          )}
           <IconButton
             css={styles.listButton}
             onClick={() => setIsOpenPageList(true)}

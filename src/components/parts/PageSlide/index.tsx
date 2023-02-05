@@ -4,6 +4,7 @@ import 'styled-components/macro'
 // import from this project
 import { Page } from 'types'
 import { useStyle, useFixWindowHeight } from 'hooks'
+import { MarkdownDisplay } from 'components/parts/MarkdownDisplay'
 import { Text } from 'components/parts/Texts'
 import { Phrase } from 'components/parts/Phrase'
 import { createStyles } from './styles'
@@ -16,7 +17,7 @@ export const PageSlide: React.FC<Props> = ({ page }) => {
   const { styles } = useStyle(createStyles)
   const { wrapperRef } = useFixWindowHeight()
 
-  const { title, phrases } = page
+  const { title, phrases, main } = page
 
   return (
     <div css={styles.container} ref={wrapperRef}>
@@ -27,6 +28,11 @@ export const PageSlide: React.FC<Props> = ({ page }) => {
               {title}
             </Text>
           </div>
+          {main && (
+            <div css={styles.mainArea}>
+              <MarkdownDisplay>{main}</MarkdownDisplay>
+            </div>
+          )}
           <div css={styles.phrasesArea}>
             {phrases.map((phrase) => (
               <div key={phrase.id} css={styles.phraseItem}>

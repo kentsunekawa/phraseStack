@@ -9,7 +9,7 @@ export type GetPagesConnectionQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetPagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PageConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null, startCursor?: string | null }, aggregate: { __typename?: 'Aggregate', count: number }, edges: Array<{ __typename?: 'PageEdge', cursor: string, node: { __typename?: 'Page', description?: string | null, references?: string | null, title: string, id: string, phrases: Array<{ __typename?: 'Phrase', japanese: string, phrase: string, pronunciation: string, id: string }> } }> } };
+export type GetPagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PageConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null, startCursor?: string | null }, aggregate: { __typename?: 'Aggregate', count: number }, edges: Array<{ __typename?: 'PageEdge', cursor: string, node: { __typename?: 'Page', main?: string | null, description?: string | null, title: string, id: string, phrases: Array<{ __typename?: 'Phrase', japanese: string, phrase: string, id: string }> } }> } };
 
 
 export const GetPagesConnectionDocument = gql`
@@ -28,14 +28,13 @@ export const GetPagesConnectionDocument = gql`
     edges {
       cursor
       node {
+        main
         phrases {
           japanese
           phrase
-          pronunciation
           id
         }
         description
-        references
         title
         id
       }

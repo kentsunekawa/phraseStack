@@ -2,12 +2,6 @@ import { useStyle, StyleBaseData } from './useStyle'
 import { useInitialCheck, setIsInitialChecked } from './useInitialCheck'
 import { useLoading, setIsLoading } from './useLoading'
 import { useAccount, setAccount } from './useAccount'
-import {
-  usePronounciation,
-  setVoice,
-  setRate,
-  setAvailableVoices,
-} from './usePronounciation'
 import { useLastCursor, setLastCursor } from './useLastCursor'
 import { useSettingMenu, toggleSettingMenu } from './useSettingMenu'
 import { usePageNum, setPageNum } from './usePageNum'
@@ -25,10 +19,6 @@ export {
   setIsLoading,
   useAccount,
   setAccount,
-  usePronounciation,
-  setAvailableVoices,
-  setVoice,
-  setRate,
   useLastCursor,
   setLastCursor,
   useSettingMenu,

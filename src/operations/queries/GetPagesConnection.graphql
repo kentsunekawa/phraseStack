@@ -13,14 +13,13 @@ query GetPagesConnection($after: String, $first: Int) {
     edges {
       cursor
       node {
+        main
         phrases {
           japanese
           phrase
-          pronunciation
           id
         }
         description
-        references
         title
         id
       }

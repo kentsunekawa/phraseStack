@@ -1,12 +1,12 @@
 // import from libraries
 import { useState } from 'react'
 import 'styled-components/macro'
-import { RecordVoiceOver, KeyboardArrowRight } from '@mui/icons-material'
-import { IconButton, Button } from '@mui/material'
+import { KeyboardArrowRight } from '@mui/icons-material'
+import { Button } from '@mui/material'
 
 // import from this project
 import { Phrase as PhraseType } from 'types'
-import { useStyle, usePronounciation } from 'hooks'
+import { useStyle } from 'hooks'
 import { Text } from 'components/parts/Texts'
 import { MarkdownDisplay } from 'components/parts/MarkdownDisplay'
 import { createStyles } from './styles'
@@ -16,21 +16,13 @@ export type Props = {
 }
 
 export const Phrase: React.FC<Props> = ({ phrase }) => {
-  const { styles, theme } = useStyle(createStyles)
+  const { styles } = useStyle(createStyles)
   const [isShowJapanese, setIsShowJapanese] = useState<boolean>(false)
 
-  const { isSpeaking, pronounce } = usePronounciation()
-  const { phrase: english, japanese, pronunciation } = phrase
+  const { phrase: english, japanese } = phrase
 
   return (
     <div css={styles.container}>
-      <IconButton
-        onClick={() => pronounce(pronunciation)}
-        disabled={isSpeaking}
-        css={styles.pronounceButton}
-      >
-        <RecordVoiceOver />
-      </IconButton>
       <div css={styles.phrase}>
         <MarkdownDisplay>{english}</MarkdownDisplay>
       </div>
